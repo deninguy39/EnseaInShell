@@ -1,3 +1,5 @@
 #define WELCOME_MSG "Welcome to ENSEA Tiny Shell \n"
-#define QUIT "Type 'exit' to quit \n"
+#define QUIT "Type 'exit' to quit\n"
 #define ENSEASH "enseash %\n"
+
+#define MAX_INPUT_SIZE 256
