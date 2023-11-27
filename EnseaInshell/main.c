@@ -3,8 +3,10 @@
 #include <string.h>
 
 #include "constantHeader.h"
-
+#include "program.c"
 
 int main(){
-    write (STDOUT_FILENO,WELCOME_MSG,strlen(WELCOME_MSG));
+    prompt();
+    return 0;
 }
+
