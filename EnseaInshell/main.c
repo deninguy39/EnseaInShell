@@ -1,6 +1,10 @@
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
 
 
 #include "constantHeader.h"
@@ -12,28 +16,40 @@ int main(){
 
     write (STDOUT_FILENO,WELCOME_MSG,strlen(WELCOME_MSG));  
 
+    
+
     while(1){
 
         write (STDOUT_FILENO,ENSEASH,strlen(ENSEASH));   
-        read(STDIN_FILENO,console_input,MAX_INPUT_SIZE);
+        int nbBytes=read(STDIN_FILENO,console_input,MAX_INPUT_SIZE);
 
-        //in the case we want to stop (it doesn't work, I can't exit)
-        if (strcmp(console_input, "exit") == 0) {
-            break; 
-        }
+        console_input[nbBytes-1]=0;
+
+       
 
         pid_t pid = fork();
 
         if (pid==-1){
             perror("fork failed");
+            exit(EXIT_FAILURE);   
         }
 
         //in the son process
-        if(pid==0){
-            execlp("fortune","fortune",NULL);
-            perror("execlp failed");
-        }
+        if(pid==0){ 
 
+            if (strcmp(console_input,"fortune")==0){
+                execlp("fortune","fortune",NULL);
+                perror("execlp failed");
+                exit(EXIT_FAILURE);
+            }   
+
+            if (strcmp(console_input,"date")==0){
+                execlp("date","date",NULL);
+                perror("execlp failed");
+                exit(EXIT_FAILURE);
+            }   
+        }
+            
         //in the parent process
         else{
         wait(&son_status);
