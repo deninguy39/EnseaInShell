@@ -25,7 +25,12 @@ int main(){
 
         console_input[nbBytes-1]=0;
 
-       
+        //in the case we want to stop 
+        if (strcmp(console_input, "exit") == 0) {
+            write (STDOUT_FILENO,BYE,strlen(BYE)); 
+            exit(EXIT_SUCCESS); 
+        }
+        
 
         pid_t pid = fork();
 
