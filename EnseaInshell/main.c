@@ -13,6 +13,7 @@
 int main(){
     char console_input[MAX_INPUT_SIZE];
     int son_status;
+    char buf[BUFSIZE];
 
     write (STDOUT_FILENO,WELCOME_MSG,strlen(WELCOME_MSG));  
 
@@ -53,17 +54,30 @@ int main(){
                 perror("execlp failed");
                 exit(EXIT_FAILURE);
             }   
+
+            if (strcmp(console_input,"a_programm")==0){
+                write (STDOUT_FILENO,BYE,strlen(BYE)); 
+                perror("execlp failed");
+                exit(EXIT_FAILURE);
+            }   
         }
             
         //in the parent process
         else{
-        wait(&son_status);
+            wait(&son_status);
+
+            if (WIFEXITED(son_status)) {
+                sprintf(buf, "enseash [exit:%d] %%\n", WEXITSTATUS(son_status));
+                write(STDOUT_FILENO,buf,strlen(buf));
+            } 
+            
+            else if (WIFSIGNALED(son_status)) {
+                sprintf(buf, "enseash [sign:%d] %%\n", WTERMSIG(son_status));
+                write(STDOUT_FILENO,buf,strlen(buf));
+            }
         }
-
-       
     }
-
-
     return 0;
-}
+    }  
+
 
