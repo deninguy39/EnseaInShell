@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <time.h>
 
 
 
@@ -21,6 +22,7 @@ int main(){
 
     while(1){
 
+        
         write (STDOUT_FILENO,ENSEASH,strlen(ENSEASH));   
         int nbBytes=read(STDIN_FILENO,console_input,MAX_INPUT_SIZE);
 
@@ -55,22 +57,19 @@ int main(){
                 exit(EXIT_FAILURE);
             }   
 
-            if (strcmp(console_input,"a_programm")==0){
-                write (STDOUT_FILENO,BYE,strlen(BYE)); 
-                perror("execlp failed");
-                exit(EXIT_FAILURE);
-            }   
+    
         }
             
         //in the parent process
         else{
             wait(&son_status);
 
+            //get the status of the son when exited 
             if (WIFEXITED(son_status)) {
                 sprintf(buf, "enseash [exit:%d] %%\n", WEXITSTATUS(son_status));
                 write(STDOUT_FILENO,buf,strlen(buf));
             } 
-            
+            //if the son process exit because of a signal
             else if (WIFSIGNALED(son_status)) {
                 sprintf(buf, "enseash [sign:%d] %%\n", WTERMSIG(son_status));
                 write(STDOUT_FILENO,buf,strlen(buf));
