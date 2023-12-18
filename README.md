@@ -40,3 +40,22 @@ But this question was also tricky, we had several problems with :
 * Differentiating which pointer was simple and which one was a double pointer ;
 * Realizing that we had to change _execlp_ in _execvp_ since we had an argument array ;
 * Understanding the use of _splitter_ (which splits the arguments (token) when the following character is encountered) and _strtok_ (which extracts, one by one, each token of a string).
+
+
+
+
+# Lab 2 : TFTP Client
+
+NGUYEN Denis and TESTUZ Lauriane 2G1TD2TP3
+
+## Questions 1 & 2
+
+For these questions, our main difficulty was to find what arguments we had to put in the _printf_ function, in particular the pointers. 
+
+## Question 3 
+
+The socket required to add just a few lines compared to the previous code. So in fact, the main problem was to find that we had to put _rrq+1_ and _"\1%s netascii"_ int the _sprintf_ function (not forgetting to remove "\0" in the character chain).
+
+## Question 4
+
+This question enabled us to learn how to use the _sendto_ function (which sends a request to the server). We also had to use the _recvfrom_ function to receive data packets. Once again, our main difficulties was to find the arguments which had to be in the functions we have just mentioned before.
