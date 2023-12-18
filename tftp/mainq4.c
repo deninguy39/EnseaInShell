@@ -4,6 +4,7 @@
 #include <netdb.h>
 #include <sys/socket.h> 
 #include <string.h>
+#include <stdio.h>
 
 int main(int argc, char ** argv){
 
@@ -14,6 +15,8 @@ int main(int argc, char ** argv){
 		exit(EXIT_FAILURE);
 	}
 	printf("Welcome to an implementation of a tftp client\n");
+
+
 
     //initialisation of the struct addrinfo  (it is where the address of the server will be stored)
 	struct addrinfo hints;
@@ -39,8 +42,8 @@ int main(int argc, char ** argv){
 	sprintf(RRQ+2,"%s", argv[3]);
 	sprintf(RRQ+strlen(argv[3])+3, "NETASCII");
 
-    //envoi de la requête
-	sendto(sd, RRQ, strlen(argv[3])+12,0,res->ai_addr, res->ai_addrlen);
+    //sending the request
+	sendto(sd, RRQ, strlen(argv[3])+12,0,result->ai_addr, result->ai_addrlen);
 
     //reception of the server's answer
 	int numberReadBytes;
@@ -50,11 +53,11 @@ int main(int argc, char ** argv){
 	numberReadBytes=recvfrom(sd,receivedBuffer,1024,0,&socketReceived,&socketReceiveSize);
 
     //management of the server's answer
-	if (receivedBuffer[1]==5{
+	if (receivedBuffer[1]==5){
 		printf("Error code received from the server : \n%s\n", receivedBuffer+4);
 		exit(EXIT_SUCCESS);
 	}
-	if(receivedBuffer[1]==3{
+	if(receivedBuffer[1]==3){
 		printf("I received %d bytes", numberReadBytes-4);
 		char ack[4]={0,4,0,0};
 		ack[3]=receivedBuffer[3];
